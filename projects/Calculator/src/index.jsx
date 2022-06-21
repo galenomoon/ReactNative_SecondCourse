@@ -10,7 +10,7 @@ export default function Calculator() {
   const [values, setValues] = useState([0, 0]);
   const [valueIndex, setValueIndex] = useState(0);
   const [operator, setOperation] = useState(null);
-  const [calcPreview, setCalcPreview] = useState()
+  const [calcPreview, setCalcPreview] = useState([])
 
   const clear = (warning) => {
     setValues([0, 0])
@@ -22,8 +22,6 @@ export default function Calculator() {
   }
 
   const addOperator = op => {
-    console.log("OPERATOR", op)
-
     valueIndex === 1 && calculate(operator)
     setValueIndex(1)
     setOperation(op)
@@ -45,59 +43,58 @@ export default function Calculator() {
   }
 
   const calculate = (operator) => {
-    setCalcPreview(`${values[0]} ${operator} ${values[1]}`)
-  if (operator === "/" && values[1] === "0") {
-    clear(true)
-    return
-  }
-  let result = eval(`${values[0]} ${operator} ${values[1]}`);
+    if (operator === "/" && values[1] === "0") {
+      clear(true)
+      return
+    }
+    let result = eval(`${values[0]} ${operator} ${values[1]}`);
+    setCalcPreview([...calcPreview, `${values[0]} ${operator} ${values[1]} = ${result}`])
 
-  const newValue = result
-  setValues([result, 0])
-  setDisplayValue(result);
-}
+    setValues([result, 0])
+    setDisplayValue(result);
+  }
 
-const handleFunction = (item) => {
-  if (typeof item === 'number' || item === ".") {
-    addDigit(item);
-    return
+  const handleFunction = (item) => {
+    if (typeof item === 'number' || item === ".") {
+      addDigit(item);
+      return
+    }
+    if (item === "AC") {
+      clear()
+      return
+    }
+    if (item === "=") {
+      operator && calculate(operator)
+      return
+    }
+    addOperator(item);
   }
-  if (item === "AC") {
-    clear()
-    return
-  }
-  if (item === "=") {
-    operator && calculate(operator)
-    return
-  }
-  addOperator(item);
-}
 
-const allButtons = () => {
-  let buttons = [];
-  let buttonNames = ['AC', '/', 7, 8, 9, '*', 4, 5, 6, '-', 1, 2, 3, '+', 0, '.', '='];
-  for (let i = 0; i < buttonNames.length; i++) {
-    buttons.push(
-      <Button
-        label={buttonNames[i]}
-        key={i}
-        doubleButton={buttonNames[i] === 0}
-        tripleButton={buttonNames[i] === 'AC'}
-        fn={() => handleFunction(buttonNames[i])}
-      />
-    )
+  const allButtons = () => {
+    let buttons = [];
+    let buttonNames = ['AC', '/', 7, 8, 9, '*', 4, 5, 6, '-', 1, 2, 3, '+', 0, '.', '='];
+    for (let i = 0; i < buttonNames.length; i++) {
+      buttons.push(
+        <Button
+          label={buttonNames[i]}
+          key={i}
+          doubleButton={buttonNames[i] === 0}
+          tripleButton={buttonNames[i] === 'AC'}
+          fn={() => handleFunction(buttonNames[i])}
+        />
+      )
+    }
+    return buttons;
   }
-  return buttons;
-}
 
-return (
-  < SafeAreaView style={styles.container}>
-    <Display value={displayValue} calcPreview={calcPreview} />
-    <View style={styles.buttons}>
-      {allButtons()}
-    </View>
-  </ SafeAreaView >
-);
+  return (
+    < SafeAreaView style={styles.container}>
+      <Display value={displayValue} calcPreview={calcPreview} />
+      <View style={styles.buttons}>
+        {allButtons()}
+      </View>
+    </ SafeAreaView >
+  );
 }
 
 const styles = StyleSheet.create({
