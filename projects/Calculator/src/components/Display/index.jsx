@@ -1,29 +1,39 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { SafeAreaView, Text, StyleSheet } from 'react-native'
 import React from 'react'
 
-export default function Display({ value }) {
+export default function Display({ value, calcPreview }) {
   return (
-    <View style={styles.display} >
+    <SafeAreaView style={styles.display} >
+      <Text style={styles.calcPreview}>
+        {value !== 0 &&calcPreview}
+      </Text>
       <Text
         numberOfLines={1}
         style={styles.displayValue}
       >
         {value || 0}
       </Text>
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   display: {
-    padding: 20,
+    flex: 1,
+    padding: 22,
+    borderRadius: 5,
     backgroundColor: '#333',
     alignItems: 'flex-end',
-    borderRadius: 5,
-    margin: 2,
+    justifyContent: 'flex-end',
+    borderRadius: 6,
+    margin: 5,
   },
   displayValue: {
-    fontSize: 40,
+    fontSize: 60,
     color: '#FFF',
+  },
+  calcPreview:{
+    color: "#888",
+    fontSize: 20
   }
 })

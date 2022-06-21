@@ -1,10 +1,25 @@
-import { View, Text, Dimensions, TouchableHighlight, StyleSheet } from 'react-native'
-import React from 'react'
+import { Text, Dimensions, TouchableHighlight, StyleSheet } from 'react-native'
+import React, { useState, useEffect } from 'react'
 
-export default function Button({ fn, label }) {
+export default function Button({ fn, label, doubleButton, tripleButton }) {
+  const [style, setStyle] = useState([styles.button])
+
+  useEffect(() => {
+    let style = style
+    if (doubleButton) {
+      setStyle([styles.button, styles.doubleButton])
+      return
+    }
+    if (tripleButton) {
+      setStyle([styles.button, styles.tripleButton])
+      return
+    }
+    typeof label !== 'number' && setStyle([styles.button, styles.operation])
+  }, [])
+
   return (
-    <TouchableHighlight onPress={() => fn && fn()}>
-      <Text style={typeof label === 'number' ? styles.button : styles.operationButton}>
+    <TouchableHighlight onPress={()=> fn()}>
+      <Text style={style}>
         {label}
       </Text>
     </TouchableHighlight>
@@ -14,24 +29,23 @@ export default function Button({ fn, label }) {
 const styles = StyleSheet.create({
   button: {
     fontSize: 40,
-    width: Dimensions.get('window').width / 4,
-    height: Dimensions.get('window').width / 4,
+    width: Dimensions.get('window').width / 4.2,
+    height: Dimensions.get('window').width / 4.2,
     padding: 20,
     backgroundColor: '#333',
-    color: '#20e4fa',
+    color: '#f542d7',
     textAlign: 'center',
     borderRadius: 5,
     margin: 2,
   },
-  operationButton: {
-    fontSize: 40,
-    width: Dimensions.get('window').width / 4,
-    height: Dimensions.get('window').width / 4,
-    padding: 20,
-    backgroundColor: '#20e4fa',
+  operation: {
+    backgroundColor: '#f542d7',
     color: '#333',
-    textAlign: 'center',
-    borderRadius: 5,
-    margin: 2,
+  },
+  doubleButton: {
+    width: (Dimensions.get('window').width / 4.2) * 2.03,
+  },
+  tripleButton: {
+    width: (Dimensions.get('window').width / 4.2) * 3.08,
   }
 })
