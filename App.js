@@ -11,10 +11,9 @@ export default function App() {
     < SafeAreaView style={styles.container}>
       <StatusBar style="light" backgroundColor={"#f2f"} />
       <ScrollView style={styles.container} >
-       <Divider label={"#01 - Calculator"}/>
+        <Divider label={"#01 - Calculator"} />
         <Calculator />
-       <Divider label={"#02 - MiningField"}/>
-
+        <Divider label={"#02 - MiningField"} />
         <Minefiled />
       </ScrollView>
     </ SafeAreaView >
@@ -25,6 +24,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#222',
-    paddingVertical:18,
+    paddingVertical: 18,
   }
 });
