@@ -1,5 +1,6 @@
 import { StyleSheet, View, SafeAreaView, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+
 //exercises
 import Calculator from './projects/Calculator/src';
 import Minefiled from './projects/Minefield/src';

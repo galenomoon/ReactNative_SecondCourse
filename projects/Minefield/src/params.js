@@ -1,7 +1,7 @@
 import { Dimensions } from "react-native";
 
 export default params = {
-  blockSize: 30,
+  blockSize: 28,
   borderSize: 5,
   fontSize: 15,
   headerRatio: 0.15,
